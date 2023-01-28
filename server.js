@@ -41,7 +41,7 @@ app.get("/playinfo",async (req,res)=>{
             headers:{
                 "Authorization": "Bearer "+spotifyToken,
             }
-        })).data.images[0].url}});
+        })).data.images[0].url},playing:r.data.is_playing});
     }catch(e){
         res.redirect(req.url);
     }
@@ -62,7 +62,7 @@ app.get("/setupcallback",async(req,res)=>{
     if(r.data.access_token) {
         spotifyToken = r.data.access_token;
         console.log("Application set up with access token.");
-        res.redirect("/")
+        res.redirect("/");
         return;
     }
     }catch{}

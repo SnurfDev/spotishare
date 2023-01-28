@@ -103,6 +103,8 @@
                     return;
                 }
                 if(cp==d.name) {
+                    if(!d.playing) audio.pause();
+                    else audio.play();
                     if(Math.abs(audio.currentTime-d.pos_ms/1000) > 1) {
                         audio.currentTime = d.pos_ms/1000;
                     }
