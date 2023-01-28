@@ -53,13 +53,12 @@ app.get("/setup",(req,res)=>{
 app.get("/setupcallback",async(req,res)=>{
     if(!req.query.code) res.status(501).json({error:"no code specified",code:501});
     try {
-    let r = await axios.post("https://accounts.spotify.com/api/token",`code=${req.query.code}&redirect_uri=${encodeURIComponent(`http://localhost:8080/setupcallback`)}&grant_type=authorization_code`,{
+    let r = await axios.post("https://accounts.spotify.com/api/token",`code=${req.query.code}&redirect_uri=${encodeURIComponent(`http://${ip}/setupcallback`)}&grant_type=authorization_code`,{
         headers: {
             'Authorization': 'Basic ' + spotifyCredentials,
             "Content-Type": "application/x-www-form-urlencoded"
         }
     });
-    console.log(r.data);
     if(r.data.access_token) {
         spotifyToken = r.data.access_token;
         console.log("Application set up with access token.");
