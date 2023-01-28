@@ -48,7 +48,7 @@ app.get("/playinfo",async (req,res)=>{
 })
 app.get("/setup",(req,res)=>{
     if(!req.headers.authorization || req.headers.authorization != "Basic "+setupCredentials) return res.setHeader("WWW-Authenticate", "Basic realm=\"Restricted\"").status(401).json({error:"unauthorized",code:401});
-    res.redirect(`https://accounts.spotify.com/authorize?show_dialog=false&response_type=code&scope=${encodeURIComponent("user-read-playback-position user-read-currently-playing user-read-playback-state")}&redirect_uri=${encodeURIComponent(`http://${ip}/setupcallback`)}&state=1234567890abcdef&client_id=1b18c7d9e7cd49eabbd7e1e6b584a7de`);
+    res.redirect(`https://accounts.spotify.com/authorize?show_dialog=false&response_type=code&scope=${encodeURIComponent("user-read-playback-position user-read-currently-playing user-read-playback-state")}&redirect_uri=${encodeURIComponent(`http://${ip}/setupcallback`)}&state=1234567890abcdef&client_id=${credentials.spotify.client_id}`);
 })
 app.get("/setupcallback",async(req,res)=>{
     if(!req.query.code) res.status(501).json({error:"no code specified",code:501});
