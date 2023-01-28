@@ -59,6 +59,7 @@ app.get("/setupcallback",async(req,res)=>{
             "Content-Type": "application/x-www-form-urlencoded"
         }
     });
+    console.log(r.data);
     if(r.data.access_token) {
         spotifyToken = r.data.access_token;
         console.log("Application set up with access token.");
