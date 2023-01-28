@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Player</title>
-
-    
-    
-
+    <title>Spotishare</title>
     <style>
         body {
             background-color: #555;
@@ -136,6 +132,9 @@
             document.querySelector("#loadingbar").style.width = (audio.currentTime/audio.duration*100)+"%"
             document.querySelector("#progress").innerText = formatSeconds(Math.floor(audio.currentTime))
         },100);
+        window.addEventListener("click",()=>{
+            audio.play();
+        },{once:true});
     </script>
 
 
