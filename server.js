@@ -16,10 +16,9 @@ async function getMusicLink(title) {
     let stream = (await ytdl(a[0].youtubeId,{filter:"audio"}))
     return (await stb(stream));
 }
-
+let artistImgCache = {};
 
 let app = express();
-app.get("/devmode",(req,res)=>res.json(credentials.spotify.devmode_autoadd))
 app.get("/playlink",async (req,res)=>{
     if(!req.query.title) return res.status(400).json({error:"no title specified",code:400});
     try {
@@ -29,7 +28,7 @@ app.get("/playlink",async (req,res)=>{
     }
 });
 app.get("/:id/playinfo",async (req,res)=>{
-    if(!spotifyTokens[req.params.id]) return res.status(400).json({error:"no account logged in",code:400});
+    if(!spotifyTokens[req.params.id]) return res.status(401).json({error:"no account logged in",code:401});
     try {
         let r = await axios.get("https://api.spotify.com/v1/me/player",{
             headers:{
@@ -37,12 +36,11 @@ app.get("/:id/playinfo",async (req,res)=>{
             }
         })
         let name = r.data.item.name+" "+r.data.item.artists.map(({name})=>name).join(" ");
-        res.json({name,pos_ms:r.data.progress_ms,data:{title:r.data.item.name,artists:r.data.item.artists,duration:{totalSeconds:Math.floor(r.data.item.duration_ms/1000)},thumbnailUrl:r.data.item.album.images[0].url,artistImg:(await axios.get(r.data.item.artists[0].href,{
-            headers:{
-                "Authorization": "Bearer "+spotifyTokens[req.params.id],
-            }
-        })).data.images[0].url},playing:r.data.is_playing});
+        res.json({name,pos_ms:r.data.progress_ms,data:{title:r.data.item.name,artists:r.data.item.artists,duration:{totalSeconds:Math.floor(r.data.item.duration_ms/1000)},thumbnailUrl:r.data.item.album.images[0].url,artistImg:r.data.item.album.images[0].url},playing:r.data.is_playing});
     }catch(e){
+        if(e.response.data=='Too many requests') {
+            return res.json({error:"rate limited by spotify api",code:400})
+        }
         res.redirect(req.url);
     }
 })

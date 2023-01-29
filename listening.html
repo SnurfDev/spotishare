@@ -78,10 +78,24 @@
         #content.inactive #hoverui_cnt {
             height: 0px;
         }
+
+        #error_overlay {
+            position: absolute;
+            width: 20%;
+            height: 100%;
+            top:0;
+            left: 40%;
+        }
+        .error_msg {
+            background-color: #F008;
+            color: white;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <audio></audio>
+    <div id="error_overlay"></div>
     <div id="content">
         <svg width="400" height="40" viewBox="0 0 400 40" id="hoverui_cnt">
             <g transform="matrix(0.38 0 0 0.38 20 20.16)" ><a href="/"><path id="home" class="hoverui" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-dashoffset: 0; stroke-linejoin: miter; stroke-miterlimit: 4; fill: #FFF8; fill-rule: nonzero; opacity: 1;pointer-events: all;" vector-effect="non-scaling-stroke"  transform=" translate(-40, -40)" d="M 40.826 0.326 L 79.199 36.161 C 80.002 36.911 79.471 38.256 78.373 38.256 L 73.129 38.256 C 72.46000000000001 38.256 71.918 38.798 71.918 39.467 L 71.918 78.78999999999999 C 71.918 79.45899999999999 71.376 80.00099999999999 70.70700000000001 80.00099999999999 L 55.755 80.00099999999999 C 55.086000000000006 80.00099999999999 54.544000000000004 79.45899999999999 54.544000000000004 78.78999999999999 L 54.544000000000004 49.552 C 54.544000000000004 46.261 51.876000000000005 43.593 48.58500000000001 43.593 L 31.414 43.593 C 28.123 43.593 25.455000000000002 46.261 25.455000000000002 49.55200000000001 L 25.455000000000002 78.789 C 25.455000000000002 79.458 24.913 80 24.244000000000003 80 L 9.293 80 C 8.623999999999999 80 8.081999999999999 79.458 8.081999999999999 78.789 L 8.081999999999999 39.467 C 8.081999999999999 38.798 7.539999999999999 38.256 6.870999999999999 38.256 L 1.627 38.256 C 0.528 38.256 -0.0020000000000000018 36.911 0.801 36.161 L 39.174 0.326 C 39.639 -0.109 40.361 -0.109 40.826 0.326 z" stroke-linecap="round" /></a></g>
@@ -102,6 +116,14 @@
         </div>
     </div>
     <script>
+        let error_overlay = document.querySelector("#error_overlay");
+        function error(text) {
+            let err = document.createElement("div");
+            err.innerText = text;
+            err.className = "error_msg";
+            error_overlay.appendChild(err);
+            setTimeout(()=>err.remove(),500);
+        }
         function formatSeconds (dur) {
             let mins = Math.floor(dur/60);
             let secs = dur%60;
@@ -118,8 +140,12 @@
         let cp = {}
         let ff = ()=>{
             fetch(location.href+"/playinfo").then(r=>r.json()).then(d=>{
-                if(d.error) {
+                if(d.code == 401) {
                     location.href = location.href+"/setup";
+                    return;
+                }
+                if(d.error) {
+                    error(d.error);
                     return;
                 }
                 if(cp==d.name) {
@@ -139,6 +165,10 @@
                 cp = d.name;
                 audio.onloadeddata = ()=>{
                     fetch(location.href+"/playinfo").then(r=>r.json()).then(d=>{
+                        if(d.error) {
+                        error(d.error);
+                        return;
+                    }
                         console.log(d.pos_ms/1000)
                         audio.play();
                         audio.currentTime = d.pos_ms/1000;
@@ -149,7 +179,7 @@
             }).catch(()=>{});
         };
         ff();
-        setInterval(ff,1000);
+        setInterval(ff,2000);
         setInterval(()=>{
             document.querySelector("#loadingbar").style.width = (audio.currentTime/audio.duration*100)+"%"
             document.querySelector("#progress").innerText = formatSeconds(Math.floor(audio.currentTime))
