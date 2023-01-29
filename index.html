@@ -18,6 +18,7 @@
             backdrop-filter: grayscale(50%) blur(25px) ;
             background-repeat:no-repeat;
             background-size: 100vw 100vh;
+            background-image: url(https://unsplash.com/photos/YrtFlrLo2DQ/download?ixid=MnwxMjA3fDB8MXxzZWFyY2h8Mnx8bXVzaWN8ZW58MHx8fHwxNjc0OTk3NTU3&force=true);
         }
         #content {
             width: min(75vh,400px);
@@ -26,123 +27,55 @@
             border-radius: 10px;
             background-color: #2228;
         }
-        #thumbnail {
-            width: 100%;
-            aspect-ratio: 1/1;
-            border-radius: 10px;
-            border: none;
-            background-color: #777;
-        }
-        #loadingbar_frame {
-            height: 15px;
-            border-radius: 10px;
-            background-color: #4448;
-            position: relative;
-        }
-        #loadingbar {
-            height: 15px;
-            border-radius: 10px;
-            background-color: #777;
-            position: absolute;
-        }
-        #title,#artists {
-            text-align: center;
-        }
-        #volume {
-            margin: 10px;
+        form {
             display: flex;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
+            gap: 10px;
+            height: 100%;
         }
-        #volumeicon {
-            width: 20px;
-            height: 20px;
-            margin-right: 10px;
-            display: inline;
+        input {
+            border: 3px solid #5554;
+            border-radius: 10px;
+            width: 75%;
+            padding: 0;
+            background-color: #3334;
+            color: #FFF;
+            outline: none;
+            aspect-ratio: 10/1;
+            box-sizing: content-box;
         }
-        #volumeslider {
-            width: 95%;
+        input:hover {background-color: #4448;}
+        input:active {background-color: #777;}
+        #logo {
+            width: 200px;
+            height: 200px;
+            
         }
     </style>
 </head>
 <body>
     <audio></audio>
     <div id="content">
-        <img id="thumbnail">
-        <h1 id="title"></h1>
-        <p id="artists"></p>
-        <p><span id="progress"></span> / <span id="length"></span></p>
-        <div id="loadingbar_frame">
-            <div id="loadingbar"></div>
-        </div>
-        <div id="volume">
-            <svg id="volumeicon" fill="#FFFFFF" width="800px" height="800px" viewBox="0 -2 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                <path d="M23.67 10.583l-0.99 2.019c0.947 0.812 1.547 2.017 1.547 3.361 0 1.482-0.336 2.822-1.453 3.626l0.957 1.707c1.461-1.311 2.381-3.213 2.381-5.331-0.001-2.145-0.946-4.071-2.442-5.382zM31.018 3.513l-1.393 1.69c2.598 2.836 4.242 6.615 4.242 10.764 0 4.142-1.641 7.916-4.23 10.751l1.391 1.725c2.963-3.336 4.758-7.648 4.758-12.476-0.001-4.815-1.819-9.12-4.768-12.454zM27.322 6.966l-1.24 1.783c1.842 1.85 3.010 4.4 3.010 7.217 0 2.874-1.215 5.469-3.123 7.329l1.289 1.711c2.305-2.354 3.693-5.484 3.693-9.039 0-3.489-1.398-6.658-3.629-9.001zM0 12.007v8.090c0 1.031 0.896 2.354 2 2.354h6.027v-12.939h-6.027c-1.104 0-2 1.465-2 2.495zM17.341 3.619l-8.381 5.777v13.25l8.381 5.84c1.104 0 2.688-0.836 2.688-1.867v-21.133c0-1.031-1.584-1.867-2.688-1.867z"></path>
+        <form>
+            <svg id="logo" fill="#eee" width="800px" height="800px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <g stroke-width="0"/>
+                <g stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M24.849 14.35c-3.206-1.616-6.988-2.563-10.991-2.563-2.278 0-4.484 0.306-6.58 0.881l0.174-0.041c-0.123 0.040-0.265 0.063-0.412 0.063-0.76 0-1.377-0.616-1.377-1.377 0-0.613 0.401-1.132 0.954-1.311l0.010-0.003c5.323-1.575 14.096-1.275 19.646 2.026 0.426 0.258 0.706 0.719 0.706 1.245 0 0.259-0.068 0.502-0.186 0.712l0.004-0.007c-0.29 0.345-0.721 0.563-1.204 0.563-0.273 0-0.529-0.070-0.752-0.192l0.008 0.004zM24.699 18.549c-0.201 0.332-0.561 0.55-0.971 0.55-0.225 0-0.434-0.065-0.61-0.178l0.005 0.003c-2.739-1.567-6.021-2.49-9.518-2.49-1.925 0-3.784 0.28-5.539 0.801l0.137-0.035c-0.101 0.032-0.217 0.051-0.337 0.051-0.629 0-1.139-0.51-1.139-1.139 0-0.509 0.333-0.939 0.793-1.086l0.008-0.002c1.804-0.535 3.878-0.843 6.023-0.843 3.989 0 7.73 1.064 10.953 2.925l-0.106-0.056c0.297 0.191 0.491 0.52 0.491 0.894 0 0.227-0.071 0.437-0.192 0.609l0.002-0.003zM22.899 22.673c-0.157 0.272-0.446 0.452-0.777 0.452-0.186 0-0.359-0.057-0.502-0.154l0.003 0.002c-2.393-1.346-5.254-2.139-8.299-2.139-1.746 0-3.432 0.261-5.020 0.745l0.122-0.032c-0.067 0.017-0.145 0.028-0.224 0.028-0.512 0-0.927-0.415-0.927-0.927 0-0.432 0.296-0.795 0.696-0.898l0.006-0.001c1.581-0.47 3.397-0.74 5.276-0.74 3.402 0 6.596 0.886 9.366 2.44l-0.097-0.050c0.302 0.15 0.506 0.456 0.506 0.809 0 0.172-0.048 0.333-0.132 0.469l0.002-0.004zM16 1.004c0 0 0 0-0 0-8.282 0-14.996 6.714-14.996 14.996s6.714 14.996 14.996 14.996c8.282 0 14.996-6.714 14.996-14.996v0c-0.025-8.272-6.724-14.971-14.993-14.996h-0.002z"/>
             </svg>
-            <input id="volumeslider" class="based" type="range" min="0" max="1" step="0.01" value="0.5">
-        </div>
+            <h1>Spotishare</h1>
+            <p>Listening Parties with many listeners!</p>
+            <input type="submit" value="Create Listening Party">
+        </form>
+        <script>
+            let form = document.querySelector("form");
+            let id = String.fromCharCode(...Array(16).fill().map(v=>97+Math.floor(Math.random()*26)));
+            form.onsubmit = e=>{
+                e.preventDefault();
+                location.href = `/${id}/setup`;
+            }
+        </script>
     </div>
-    <script>
-        function formatSeconds (dur) {
-            let mins = Math.floor(dur/60);
-            let secs = dur%60;
-            return `${mins}:${secs<10?"0":""}${secs}`
-        }
-
-        let audio = document.querySelector("audio");
-        audio.volume = 0.5;
-        let slider = document.querySelector("#volumeslider");
-        slider.addEventListener("input",e=>{
-            console.log( e.target.value)
-            audio.volume = e.target.value;
-        });audio.volume = slider.value;
-        let cp = {}
-        let ff = ()=>{
-            fetch("/playinfo").then(r=>r.json()).then(d=>{
-                if(d.error) {
-                    location.href = "/setup";
-                    return;
-                }
-                if(cp==d.name) {
-                    if(!d.playing) audio.pause();
-                    else audio.play();
-                    if(Math.abs(audio.currentTime-d.pos_ms/1000) > 1) {
-                        audio.currentTime = d.pos_ms/1000;
-                    }
-                    return;
-                }
-                document.querySelector("#thumbnail").src = d.data.thumbnailUrl;
-                document.querySelector("#title").innerText = d.data.title;
-                document.querySelector("#artists").innerText = d.data.artists.map(v=>v.name).join(" • ");
-                document.querySelector("#length").innerText = formatSeconds(d.data.duration.totalSeconds);
-                document.body.style.backgroundImage = `url(${d.data.artistImg})`;
-                
-                cp = d.name;
-                audio.onloadeddata = ()=>{
-                    fetch("/playinfo").then(r=>r.json()).then(d=>{
-                        console.log(d.pos_ms/1000)
-                        audio.play();
-                        audio.currentTime = d.pos_ms/1000;
-                    })
-                };
-                audio.src = "/playlink?title="+d.name;
-
-            }).catch(()=>{});
-        };
-        ff();
-        setInterval(ff,1000);
-        setInterval(()=>{
-            document.querySelector("#loadingbar").style.width = (audio.currentTime/audio.duration*100)+"%"
-            document.querySelector("#progress").innerText = formatSeconds(Math.floor(audio.currentTime))
-        },100);
-        window.addEventListener("click",()=>{
-            audio.play();
-        },{once:true});
-    </script>
-
-
-<!-- Based Sliders START -->
-<style>.based{background:linear-gradient(to right, #777 0%, #777 50%, #4448 50%, #4448 100%);border:solid 1px #4448;border-radius:8px;height:7px;width:356px;outline:none;transition:background 450ms ease-in;-webkit-appearance:none}</style>
-<script defer>document.querySelectorAll(".based").forEach(v=>{;v.oninput=(e)=>{let value=(e.target.value-e.target.min)/(e.target.max-e.target.min)*100;e.target.style.background='linear-gradient(to right, #777 0%, #777 '+value+'%, #4448 '+value+'%, #4448 100%)'};v.oninput({target:v})});</script>
-<!-- Based Sliders END -->
 </body>
 </html>
