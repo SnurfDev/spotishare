@@ -53,6 +53,10 @@
             height: 200px;
             
         }
+        a,a:visited {
+            color: #BBF;
+            text-decoration: none;
+        }
     </style>
 </head>
 <body>
@@ -67,7 +71,9 @@
             <h1>Spotishare</h1>
             <p>Listening Parties with many listeners!</p>
             <input type="submit" value="Create Listening Party">
+            <p>Made with <b style="color: #FBB;">&hearts;</b> by <a href="https://github.com/Snurf08/">Snurf</a> • <a href="https://github.com/Snurf08/spotishare">Source Code</a></p>
         </form>
+        
         <script>
             let form = document.querySelector("form");
             let id = String.fromCharCode(...Array(16).fill().map(v=>97+Math.floor(Math.random()*26)));
