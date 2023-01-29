@@ -47,6 +47,7 @@ app.get("/:id/playinfo",async (req,res)=>{
     }
 })
 app.get("/:id/setup",async(req,res)=>{
+    if(spotifyTokens[req.params.id]) return res.redirect("/"+req.params.id);
     //if(!req.headers.authorization || req.headers.authorization != "Basic "+setupCredentials) return res.setHeader("WWW-Authenticate", "Basic realm=\"Restricted\"").status(401).json({error:"unauthorized",code:401});
     res.redirect(`https://accounts.spotify.com/authorize?show_dialog=false&response_type=code&scope=${encodeURIComponent("user-read-playback-position user-read-currently-playing user-read-playback-state")}&redirect_uri=${encodeURIComponent(`http://${ip}/setupcallback`)}&state=${req.params.id}&client_id=${credentials.spotify.client_id}`);
 })
@@ -61,7 +62,7 @@ app.get("/setupcallback",async(req,res)=>{
     });
     if(r.data.access_token) {
         spotifyTokens[req.query.state] = r.data.access_token;
-        console.log("Application set up with access token.");
+        console.log(`Application set up with access token for listening session http://${ip}/${req.query.state}/`);
         res.redirect("/"+req.query.state);
         return;
     }
