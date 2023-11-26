@@ -1,6 +1,6 @@
 # Spotishare
 
-Spotify listening party app i made because i was bored
+Spotify listening party app
 
 ## Installation
 first download the repo or run
